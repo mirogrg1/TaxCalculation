@@ -11,14 +11,58 @@ namespace TaxCalculation.Services
             _taxCalculator = taxCalculator ?? throw new ArgumentNullException(nameof(taxCalculator));
         }
 
-        public async Task<Tax> GetTaxesForOrder(Order order)
+        public async Task<TaxForOrderResult> GetTaxesForOrder(Order order)
         {
-            return await _taxCalculator.GetTaxesForOder(order);
+            try
+            {
+                var taxesForOrder = await _taxCalculator.GetTaxesForOder(order);
+                if (taxesForOrder != null)
+                {
+                    return new TaxForOrderResult
+                    {
+                        Success = true,
+                        Result = taxesForOrder.tax?.amount_to_collect?.ToString()
+                    };
+                }
+                else
+                    return new TaxForOrderResult { Success = false, Message = "Tax for this order could not be found" };
+            }
+            catch (Exception ex)
+            {
+                return new TaxForOrderResult
+                {
+                    Success = false,
+                    Error = ex.ToString(),
+                    Message = ex.Message
+                };
+            }           
         }
 
         public async Task<RateResult> GetTaxRatesForLocation(Location location, string zipCode)
         {
-           return await _taxCalculator.GetRateForLocation(location, zipCode);           
+            try
+            {
+                var rateForLocation = await _taxCalculator.GetRateForLocation(location, zipCode);
+                if (rateForLocation != null)
+                {
+                    return new RateResult
+                    {
+                        Success = true,
+                        Rate = rateForLocation.Rate
+                    };
+                }
+                else
+                    return new RateResult { Success = false, Message = "Rate could be not found" };
+            }
+            catch (Exception ex)
+            {
+                return new RateResult
+                {
+                    Success = false,
+                    Error = ex.ToString(),
+                    Message = ex.Message
+                };
+            }
         }      
     }
 }

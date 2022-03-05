@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System.Dynamic;
 using TaxCalculation.Const;
 using TaxCalculation.Extensions;
 using TaxCalculation.Interfaces;
@@ -20,11 +23,11 @@ namespace TaxCalculation.TaxCalculators
             return JsonConvert.DeserializeObject<RateResult>(result);
         }
 
-        public async Task<Tax> GetTaxesForOder(Order order)
-        {           
-           var result = await _httpService.GetForAPI(APIs.Taxes, ApiKeys.ApiKey);
-
-            return JsonConvert.DeserializeObject<Tax>(result);
+        public async Task<dynamic> GetTaxesForOder(Order order)
+        {
+            var result = await _httpService.PostForAPI(APIs.Taxes, ApiKeys.ApiKey, body: JsonConvert.SerializeObject(order));
+           
+            return JsonConvert.DeserializeObject<ExpandoObject>(result, new ExpandoObjectConverter());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TaxCalculation.Models
 {
-    public class RateResult
+    public class RateResult : ResultBase
     {
         [JsonProperty("rate")]
         public Rate Rate { get; set; }

@@ -2,7 +2,7 @@
 
 namespace TaxCalculation.Extensions
 {
-    internal static class Parameters
+    public static class Parameters
     {
         public static Dictionary<string, string> CreateParameters(this Location location)
         {

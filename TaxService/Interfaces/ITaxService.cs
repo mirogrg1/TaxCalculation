@@ -2,9 +2,9 @@
 
 namespace TaxCalculation.Interfaces
 {
-    internal interface ITaxService
+    public interface ITaxService
     {
-        public Task<RateResult> GetTaxRatesForLocation(Location location, string zipCode);
-        public Task<TaxForOrderResult> GetTaxesForOrder(Order order);
+        Task<TaxForOrderResult> GetTaxesForOrder(Order order);
+        Task<RateResult> GetTaxRatesForLocation(Location location, string zipCode);
     }
 }

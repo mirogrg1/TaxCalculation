@@ -33,8 +33,8 @@ namespace TaxCalculation.Services
             {
                 var uri = parameters != null ? "?" + string.Join("&", parameters.Select(p => p.Key + "=" + p.Value)) : string.Empty;
                 client.BaseAddress = new Uri(api);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(HttpMethod.Post.ToString(), $"Token token={apiKey}");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HttpMethod.Post.ToString(), $"Token token={apiKey}");
                 ByteArrayContent? content = null;
                 if (!string.IsNullOrWhiteSpace(body))
                 {
